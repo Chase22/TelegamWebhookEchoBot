@@ -10,9 +10,6 @@ plugins {
     // Apply the java plugin to add support for Java
     java
 
-    // Apply the application plugin to add support for building a CLI application.
-    application
-
     // Apply the groovy plugin to also add support for Groovy (needed for Spock)
     groovy
 }
@@ -40,20 +37,22 @@ dependencies {
     testImplementation("junit:junit:4.12")
 }
 
+tasks {
+    jar {
+        manifest {
+            attributes(Pair("Main-Class", "io.chase22.telegram.webhook.App"))
+        }
+    }
 
+    val writePropertiesFile = register("writePropertiesFile") {
+        File("system.properties").writeText("java.runtime.version=${java.targetCompatibility.majorVersion}")
+    }
 
-application {
-    // Define the main class for the application.
-    mainClassName = "io.chase22.telegram.webhook.App"
-}
+    register("stage") {
+        dependsOn(build, clean, writePropertiesFile)
+    }
 
-val writerPropertiesFile = tasks.register("writePropertiesFile") {
-    File("system.properties").writeText("java.runtime.version=${java.targetCompatibility.majorVersion}")
-}
-
-tasks.register("stage") {
-    dependsOn(tasks.build, tasks.clean, writerPropertiesFile)
-}
-tasks.build {
-    mustRunAfter(tasks.clean)
+    build {
+        mustRunAfter(clean)
+    }
 }
