@@ -17,6 +17,11 @@ plugins {
     groovy
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
@@ -35,7 +40,16 @@ dependencies {
     testImplementation("junit:junit:4.12")
 }
 
+
+
 application {
     // Define the main class for the application.
     mainClassName = "io.chase22.telegram.webhook.App"
+}
+
+tasks.register("stage") {
+    dependsOn(tasks.build, tasks.clean)
+}
+tasks.build {
+    mustRunAfter(tasks.clean)
 }
