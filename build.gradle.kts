@@ -12,6 +12,8 @@ plugins {
 
     // Apply the groovy plugin to also add support for Groovy (needed for Spock)
     groovy
+
+    id("com.github.johnrengelman.shadow") version("5.2.0")
 }
 
 java {
@@ -26,8 +28,8 @@ repositories {
 }
 
 dependencies {
-    // This dependency is used by the application.
-    implementation("com.google.guava:guava:28.0-jre")
+
+    implementation("org.telegram:telegrambots:4.7")
 
     // Use the latest Groovy version for Spock testing
     testImplementation("org.codehaus.groovy:groovy-all:2.5.8")
@@ -54,5 +56,17 @@ tasks {
 
     build {
         mustRunAfter(clean)
+    }
+
+    jar {
+        enabled = false
+    }
+
+    assemble {
+        dependsOn(shadowJar)
+    }
+
+    shadowJar {
+        archiveClassifier.set("")
     }
 }
