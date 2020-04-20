@@ -10,7 +10,13 @@
   "env": {
     "BOT_TOKEN": {
       "description": "The secret token provided by botfather",
-      "required": true
+    },
+    "BOT_USERNAME": {
+      "description": "The username of the bot as set in botfather"
+    },
+    "BOT_PATH": {
+      "description": "The path for the webhook",
+      "value": "/webhook"
     }
   }
 }
