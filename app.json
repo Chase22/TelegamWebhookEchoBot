@@ -1,0 +1,16 @@
+{
+  "name": "Webhook Echo Bot",
+  "description": "A simple bot that will echo every message using telegram webhooks",
+  "keywords": [
+    "telegram",
+    "example",
+    "webhook"
+  ],
+  "repository": "https://github.com/Chase22/TelegramWebhookEchoBot",
+  "env": {
+    "BOT_TOKEN": {
+      "description": "The secret token provided by botfather",
+      "required": true
+    }
+  }
+}
