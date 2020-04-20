@@ -47,8 +47,12 @@ application {
     mainClassName = "io.chase22.telegram.webhook.App"
 }
 
+val writerPropertiesFile = tasks.register("writePropertiesFile") {
+    File("system.properties").writeText("java.runtime.version=${java.targetCompatibility.majorVersion}")
+}
+
 tasks.register("stage") {
-    dependsOn(tasks.build, tasks.clean)
+    dependsOn(tasks.build, tasks.clean, writerPropertiesFile)
 }
 tasks.build {
     mustRunAfter(tasks.clean)
