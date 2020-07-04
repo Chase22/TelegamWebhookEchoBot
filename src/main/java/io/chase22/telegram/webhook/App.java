@@ -3,15 +3,30 @@
  */
 package io.chase22.telegram.webhook;
 
+import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.telegram.telegrambots.ApiContextInitializer;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+
+import java.net.URI;
 
 public class App {
     public static void main(String[] args) throws TelegramApiRequestException {
         ApiContextInitializer.init();
-        TelegramBotsApi api = new TelegramBotsApi();
 
-        api.registerBot(new EchoBot());
+        int port = Integer.parseInt(System.getenv("PORT"));
+
+        TelegramBotsApi api = new TelegramBotsApi(System.getenv("PORT") + ":" + port, "localhost" + ":" + port);
+
+        DefaultBotOptions options = new DefaultBotOptions();
+
+        final EchoBot bot = new EchoBot(options);
+//        api.registerBot(bot);
+
+        final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create("http://webhook-echo-bot.herokuapp.com"));
+        server.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(App.class.getClassLoader(), "/"));
     }
 }

@@ -1,11 +1,16 @@
 package io.chase22.telegram.webhook;
 
+import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class EchoBot extends TelegramWebhookBot {
+    public EchoBot(DefaultBotOptions options) {
+        super(options);
+    }
+
     @Override
     public BotApiMethod onWebhookUpdateReceived(Update update) {
         if (update.hasMessage()) {
@@ -13,6 +18,7 @@ public class EchoBot extends TelegramWebhookBot {
         } else {
             return null;
         }
+
     }
 
     @Override
